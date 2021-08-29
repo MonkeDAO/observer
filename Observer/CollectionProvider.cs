@@ -31,6 +31,10 @@ namespace Observer
         public CollectionProvider(ILogger logger)
         {
             _logger = logger;
+            _jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
             _metadataAccounts = new List<MetadataAccountWrapper>();
         }
         
