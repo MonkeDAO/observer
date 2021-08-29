@@ -62,7 +62,7 @@ We encourage everyone to contribute, submit issues, PRs, discuss. Every kind of 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/MonkeDAO/observer/blob/master/LICENSE) file for details
+This project is licensed under the GPLv3 - see the [LICENSE](https://github.com/MonkeDAO/observer/blob/master/LICENSE) file for details
 
 ### Supporting
 
