@@ -53,7 +53,7 @@ namespace Observer.Handlers
                     if (decodedInstructions[0].InnerInstructions.Count == 4)
                     {
                         var from = (PublicKey) decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("From Account");
-                        var to = (PublicKey) decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("To Account");
+                        var to = (PublicKey) decodedInstructions[1].InnerInstructions[2].Values.GetValueOrDefault("To Account");
                         var feeAmount = (ulong) decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("Amount");
                         var nftMint = (PublicKey) decodedInstructions[0].InnerInstructions[3].Values.GetValueOrDefault("Mint");
                         if (feeAmount == null || from == null || to == null || nftMint == null) break;

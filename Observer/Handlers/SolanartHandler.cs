@@ -55,8 +55,8 @@ namespace Observer.Handlers
                     // this is a sale
                     if (decodedInstructions[0].InnerInstructions.Count == 4)
                     {
-                        var from = (PublicKey) decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("From Account");
-                        var to = (PublicKey) decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("To Account");
+                        var from = (PublicKey) decodedInstructions[1].InnerInstructions[1].Values.GetValueOrDefault("From Account");
+                        var to = (PublicKey) decodedInstructions[1].InnerInstructions[1].Values.GetValueOrDefault("To Account");
                         var feeAmount = decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("Amount");
                         var amount = decodedInstructions[1].InnerInstructions[1].Values.GetValueOrDefault("Amount");
                         var nftMint = (PublicKey) decodedInstructions[0].InnerInstructions[3].Values.GetValueOrDefault("Mint");
