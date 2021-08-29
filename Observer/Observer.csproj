@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CoinGeckoAsyncApi" Version="1.4.4" />
+      <PackageReference Include="CoreTweet" Version="1.0.0.483" />
+      <PackageReference Include="Solnet.Programs" Version="0.4.3" />
+      <PackageReference Include="Solnet.Rpc" Version="0.4.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources" />
+    </ItemGroup>
+
+</Project>

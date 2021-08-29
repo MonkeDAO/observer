@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Solnet.Programs" Version="0.4.3" />
+        <PackageReference Include="Solnet.Rpc" Version="0.4.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Observer\Observer.csproj" />
+    </ItemGroup>
+
+</Project>
