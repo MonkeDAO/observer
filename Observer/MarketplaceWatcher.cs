@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -93,6 +94,17 @@ namespace Observer
                     var tx = await _rpcClient.GetConfirmedTransactionAsync(signatures.Result[i].Signature, Commitment.Confirmed);
                     if (!tx.WasRequestSuccessfullyHandled)
                     {
+                        await Task.Delay(1000, _cancellationToken);
+                        continue;
+                    }
+                    if (!tx.Result.BlockTime.HasValue)
+                    {
+                        await Task.Delay(1000, _cancellationToken);
+                        continue;
+                    }
+                    if (DateTime.UtcNow.Subtract(DateTime.UnixEpoch.Add(TimeSpan.FromSeconds(tx.Result.BlockTime.Value))).TotalSeconds > 300)
+                    {
+                        _logger.LogDebug($"[{_name}] Found old transaction, ignoring.");
                         await Task.Delay(1000, _cancellationToken);
                         continue;
                     }

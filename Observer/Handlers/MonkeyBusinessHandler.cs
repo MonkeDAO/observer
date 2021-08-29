@@ -67,9 +67,9 @@ namespace Observer.Handlers
                         
                         if (metadataAccount != null)
                         {
-                            _logger.LogInformation($"[{_name}] SOLD → {to?.Key[..5]}...{to?.Key[^5..]}" +
+                            _logger.LogInformation($"[{_name}] SOLD → {from?.Key[..5]}...{from?.Key[^5..]}" +
                                                    $" BOUGHT {metadataAccount.Name}" +
-                                                   $" FROM {from?.Key[..5]}...{from?.Key[^5..]}" +
+                                                   $" FROM {to?.Key[..5]}...{to?.Key[^5..]}" +
                                                    $" FOR {price:N2} SOL" +
                                                    $" → https://solscan.io/tx/{tx.Transaction.Signatures[0]}");
                         }
