@@ -39,7 +39,7 @@ Due to the numerous ways different projects are formatting their names and symbo
 Considering you have edited the `_collections` dictionary present in `Scraper/Program.cs`, all you need to do to run this tool is:
 
 ```bash
-dotnet run --project Observer/Observer.csproj --configuration Release
+dotnet run --project Scraper/Scraper.csproj --configuration Release
 ```
 
 ### Observer
