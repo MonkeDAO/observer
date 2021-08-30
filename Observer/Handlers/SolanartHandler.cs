@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Solnet.Programs;
@@ -111,9 +113,60 @@ namespace Observer.Handlers
                                                $" LISTED {nftMint?.Key[..5]}...{nftMint?.Key[^5..]}" +
                                                $" FOR {price:N2} SOL" +
                                                $" → https://solscan.io/tx/{tx.Transaction.Signatures[0]}");
+                    } else if (decodedInstructions[0].InnerInstructions.Count == 4)
+                    { // this is a sale
+                        HandleSale(tx, decodedInstructions);
                     }
                     break;
+                default:
+                {
+                    try
+                    {
+                        HandleSale(tx, decodedInstructions);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogInformation(
+                            $"[{_name}] Irregular transaction: {tx.Transaction.Signatures[0]}. Exception: {ex}");
+                    }
+                    break;
+                }
             }
+        }
+        
+        private async void HandleSale(TransactionMetaInfo tx, List<DecodedInstruction> decodedInstructions)
+        {
+            var from = (PublicKey) decodedInstructions[1].InnerInstructions[1].Values.GetValueOrDefault("From Account");
+            var to = (PublicKey) decodedInstructions[1].InnerInstructions[1].Values.GetValueOrDefault("To Account");
+            var feeAmount = decodedInstructions[1].InnerInstructions[0].Values.GetValueOrDefault("Amount");
+            var amount = decodedInstructions[1].InnerInstructions[1].Values.GetValueOrDefault("Amount");
+            var nftMint = (PublicKey) decodedInstructions[0].InnerInstructions[3].Values.GetValueOrDefault("Mint");
+            if (amount == null || feeAmount == null || from == null || to == null || nftMint == null) return;
+            var metadataAccount = _collectionProvider.GetMetadataAccountForMint(nftMint);
+            
+            var otherAmounts = decodedInstructions
+                .Select(
+                    instruction => 
+                        instruction.Values.GetValueOrDefault("Amount"))
+                .Where(innerAmount => innerAmount != null)
+                .Aggregate(0UL, (current, innerAmount) => current + (ulong)innerAmount);
+            
+            var price = (double) ((ulong) amount + (ulong) feeAmount + otherAmounts)/ MetaplexHelpers.LamportsPerSol;
+        
+            if (metadataAccount != null)
+            {
+                _logger.LogInformation($"[{_name}] SOLD → {from.Key[..5]}...{from.Key[^5..]}" +
+                                       $" BOUGHT {metadataAccount.Name}" +
+                                       $" FROM {to.Key[..5]}...{to.Key[^5..]}" +
+                                       $" FOR {price:N2} SOL" +
+                                       $" → https://solscan.io/tx/{tx.Transaction.Signatures[0]}");
+                return;
+            }
+            _logger.LogInformation($"[{_name}] SOLD → {from.Key[..5]}...{from.Key[^5..]}" +
+                                   $" BOUGHT {nftMint?.Key[..5]}...{nftMint?.Key[^5..]}" +
+                                   $" FROM {to.Key[..5]}...{to.Key[^5..]}" +
+                                   $" FOR {price:N2} SOL" +
+                                   $" → https://solscan.io/tx/{tx.Transaction.Signatures[0]}");
         }
         
         /// <inheritdoc cref="IHandler.SetProvider"/>

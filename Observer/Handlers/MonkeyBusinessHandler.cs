@@ -102,6 +102,11 @@ namespace Observer.Handlers
                     }
                     break;
                 }
+                default:
+                {
+                    _logger.LogInformation($"{_name} - Irregular transaction - {tx.Transaction.Signatures[0]}");
+                    break;
+                }
             }
         }
         

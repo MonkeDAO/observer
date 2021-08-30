@@ -111,6 +111,11 @@ namespace Observer.Handlers
                                                $" → https://solscan.io/tx/{tx.Transaction.Signatures[0]}");
                     }
                     break;
+                default:
+                {
+                    _logger.LogInformation($"{_name} - Irregular transaction - {tx.Transaction.Signatures[0]}");
+                    break;
+                }
             }
         }
 

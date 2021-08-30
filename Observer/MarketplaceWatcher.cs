@@ -115,7 +115,14 @@ namespace Observer
                         continue;
                     }
 
-                    handler.Handle(tx.Result);
+                    try
+                    { 
+                        handler.Handle(tx.Result);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"[{_name}] Something went wrong while handling transaction: {ex.InnerException}");
+                    }
 
                     await Task.Delay(1000, _cancellationToken);
                     if (i != 0) continue;
