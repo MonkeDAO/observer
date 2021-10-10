@@ -64,7 +64,7 @@ namespace Observer.Handlers
                         var nftMint = (PublicKey) decodedInstructions[0].InnerInstructions[3].Values.GetValueOrDefault("Mint");
                         if (amount == null || feeAmount == null || from == null || to == null || nftMint == null) break;
                         var metadataAccount = _collectionProvider.GetMetadataAccountForMint(nftMint);
-                        var price = (double) ((ulong) amount + (ulong) feeAmount) / MetaplexHelpers.LamportsPerSol;
+                        var price = (double) ( 100 * ((ulong) amount + (ulong) feeAmount) / MetaplexHelpers.LamportsPerSol) / 100;
                     
                         if (metadataAccount != null)
                         {
@@ -151,7 +151,7 @@ namespace Observer.Handlers
                 .Where(innerAmount => innerAmount != null)
                 .Aggregate(0UL, (current, innerAmount) => current + (ulong)innerAmount);
             
-            var price = (double) ((ulong) amount + (ulong) feeAmount + otherAmounts)/ MetaplexHelpers.LamportsPerSol;
+            var price = (double) (100 * ((ulong) amount + (ulong) feeAmount + otherAmounts)/ MetaplexHelpers.LamportsPerSol) / 100;
         
             if (metadataAccount != null)
             {
