@@ -66,7 +66,7 @@ namespace Observer.Handlers
                             .Aggregate(0UL, (current, innerAmount) => current + (ulong)innerAmount);
 
                         var metadataAccount = _collectionProvider.GetMetadataAccountForMint(nftMint);
-                        var price = (double) ((amount + feeAmount) / MetaplexHelpers.LamportsPerSol);
+                        var price = (double) (100 * (amount + feeAmount) / MetaplexHelpers.LamportsPerSol) / 100;
                     
                         if (metadataAccount != null)
                         {
@@ -93,8 +93,8 @@ namespace Observer.Handlers
                         var data = (string) decodedInstructions[4].Values.GetValueOrDefault("Data");
                         if (from == null || data == null || nftMint == null) break;
 
-                        var price = (double)(MetaplexHelpers.GetPriceFromData(Encoders.Base58.DecodeData(data)) /
-                                             MetaplexHelpers.LamportsPerSol);
+                        var price = (double)(100 * MetaplexHelpers.GetPriceFromData(Encoders.Base58.DecodeData(data)) /
+                                             MetaplexHelpers.LamportsPerSol) /100;
                         var metadataAccount = _collectionProvider.GetMetadataAccountForMint(nftMint);
                         /**/
                         if (metadataAccount != null)
